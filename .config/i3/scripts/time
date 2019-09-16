@@ -1,0 +1,3 @@
+#!/bin/sh
+
+date '+<span font="Material Design Icons"></span> %Y-%m-%d %H:%M'
