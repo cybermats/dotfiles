@@ -37,7 +37,7 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm|xterm-color|*-256color) color_prompt=yes;;
+    xterm-color|*-256color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -57,20 +57,16 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    if [[ ${EUID} == 0 ]] ; then
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\h\[\033[01;34m\] \W \$\[\033[00m\] '
-    else
-        PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\] \[\033[01;34m\]\w \$\[\033[00m\] '
-    fi
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h \w \$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h \w\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 *)
     ;;
@@ -119,22 +115,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-if [ -x /usr/bin/mint-fortune ]; then
-     /usr/bin/mint-fortune
-fi
-
-export BOOST_ROOT="/usr/local/boost_1_64_0"
-
-#export JAVA_HOME=/opt/java/jdk-9.0.1
-export JAVA_HOME=/opt/java/jdk1.8.0_152
-export PATH=$JAVA_HOME/bin:$PATH
-export PATH=/opt/apache-maven-3.5.2/bin:$PATH:/usr/local/go/bin
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/mats/bin/google-cloud-sdk/path.bash.inc' ]; then source '/home/mats/bin/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/mats/bin/google-cloud-sdk/completion.bash.inc' ]; then source '/home/mats/bin/google-cloud-sdk/completion.bash.inc'; fi
-
-alias config='/usr/bin/git --git-dir=/home/mats/.dotfiles/ --work-tree=/home/mats'
