@@ -17,7 +17,7 @@ set $mod Mod4
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-font pango:Yosemite San Francisco Display 10
+font pango:System San Francisco Display 10
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -183,39 +183,44 @@ bindsym $mod+shift+a mode "audio"
 
 
 
-# set $bg-color 	         #2f343f
-# set $inactive-bg-color   #2f343f
-# set $text-color          #f3f4f5
-# set $inactive-text-color #676E7D
-# set $urgent-bg-color     #E53935
+#set $inactive-bg-color   #2E3436
+#set $inactive-text-color #D3D7CF
+#set $active-bg-color	 #D3D7CF
+#set $active-text-color	 #2E3436
+#set $urgent-bg-color     #E53935
+#set $urgent-text-color   #E53935
+#set $indicator		 #00ff00
 
-set $bg-color 	         #f2f2f2
-set $inactive-bg-color   #d0d0d0
-set $text-color          #4c4c4c
-set $inactive-text-color #606060
-set $urgent-bg-color     #E53935
+set $main-color		 #2a2e45
+set $inactive-bg-color   #040717
+set $inactive-text-color #9094ac
+set $active-bg-color	 #221d01
+set $active-text-color	 #fbf5cd
+set $urgent-bg-color     #221201
+set $urgent-text-color   #fbe5cd
+set $indicator		 #fbe5cd
 
 # window colors
 #                       border              background         text                 indicator
-client.focused          $bg-color           $bg-color          $text-color          #00ff00
-client.unfocused        $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
-client.focused_inactive $inactive-bg-color $inactive-bg-color $inactive-text-color #00ff00
-client.urgent           $urgent-bg-color    $urgent-bg-color   $text-color          #00ff00
+client.focused		$active-bg-color    $active-bg-color   $active-text-color   $indicator
+client.unfocused	$inactive-bg-color  $inactive-bg-color $inactive-text-color $indicator
+client.focused_inactive	$inactive-bg-color  $inactive-bg-color $inactive-text-color $indicator
+client.urgent		$urgent-bg-color    $urgent-bg-color   $urgent-text-color   $indicator
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
         status_command i3blocks -c ~/.config/i3/i3blocks.conf
-	font pango:Yosemite San Francisco Display 10
+	font pango:System San Francisco Display 10
 	colors {
-		background $bg-color
-	    	separator #757575
+		background $main-color
+	    	separator $inactive-text-color
 		#                  border             background         text
-		focused_workspace  $bg-color          $bg-color          $text-color
+		focused_workspace  $active-bg-color   $active-bg-color	 $active-text-color
 		inactive_workspace $inactive-bg-color $inactive-bg-color $inactive-text-color
-		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $text-color
-		statusline $text-color
+		urgent_workspace   $urgent-bg-color   $urgent-bg-color   $urgent-text-color
+		statusline $active-text-color
 	}
 }
 
@@ -225,7 +230,8 @@ bindsym $mod+d exec rofi -show-icons -show combi -combi-modi "run#drun" -modi co
 
 
 #exec compton -f
-exec exec --no-startup-id compton -f --unredir-if-possible --config ~/.config/compton/compton.conf -b
+#exec_always --no-startup-id compton -f --unredir-if-possible --config /home/mats/.config/compton/compton.conf -b
+exec --no-startup-id picom -b
 
 ## Assign
 
@@ -250,6 +256,8 @@ for_window [instance="^crx.*$" window_role="pop-up"]  floating enable
 for_window [instance="^crx.*$" window_role="pop-up"]  sticky   enable
 for_window [class="Google-chrome"] border none
 
-bindsym $mod+l exec i3lock -e -c "$bg-color"
+bindsym $mod+l exec i3lock -e -c "$main-color"
 
-exec_always feh --bg-fill /home/mats/Pictures/wallpapers/mountain.jpg
+#exec_always feh --bg-fill /home/mats/Pictures/wallpapers/mountain.jpg
+#exec_always feh --bg-fill /usr/share/backgrounds/Water_of_Leith_by_Keanu_Kerr.jpg
+exec_always --no-startup-id wal -i /usr/share/backgrounds/
