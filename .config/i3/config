@@ -181,24 +181,22 @@ mode "audio" {
 
 bindsym $mod+shift+a mode "audio"
 
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
 
 
-#set $inactive-bg-color   #2E3436
-#set $inactive-text-color #D3D7CF
-#set $active-bg-color	 #D3D7CF
-#set $active-text-color	 #2E3436
-#set $urgent-bg-color     #E53935
-#set $urgent-text-color   #E53935
-#set $indicator		 #00ff00
+set_from_resource $main-color		i3wm.color1 #f0f0f0
+set_from_resource $inactive-bg-color 	i3wm.color2 #f0f0f0
+set_from_resource $inactive-text-color 	i3wm.color0 #f0f0f0
+set_from_resource $active-bg-color	i3wm.color4 #f0f0f0
+set_from_resource $active-text-color	i3wm.color0 #f0f0f0
+set_from_resource $urgent-bg-color 	i3wm.color6 #f0f0f0
+set_from_resource $urgent-text-color 	i3wm.color0 #f0f0f0
+set_from_resource $indicator 		i3wm.color15 #f0f0f0
 
-set $main-color		 #2a2e45
-set $inactive-bg-color   #040717
-set $inactive-text-color #9094ac
-set $active-bg-color	 #221d01
-set $active-text-color	 #fbf5cd
-set $urgent-bg-color     #221201
-set $urgent-text-color   #fbe5cd
-set $indicator		 #fbe5cd
+
 
 # window colors
 #                       border              background         text                 indicator
@@ -226,12 +224,12 @@ bar {
 
 
 
-bindsym $mod+d exec rofi -show-icons -show combi -combi-modi "run#drun" -modi combi -font "System San Francisco Display 12"
+bindsym $mod+d exec rofi -show-icons -show combi -combi-modi "drun#run" -modi combi -font "System San Francisco Display 12"
 
 
 #exec compton -f
 #exec_always --no-startup-id compton -f --unredir-if-possible --config /home/mats/.config/compton/compton.conf -b
-exec --no-startup-id picom -b
+exec --no-startup-id picom --unredir-if-possible -b
 
 ## Assign
 

@@ -126,7 +126,7 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-go gotest go-projectile go-autocomplete exec-path-from-shell yaml-mode web-narrow-mode web-mode-edit-element prettier-js json-mode groovy-mode go-mode flycheck-rtags flycheck-irony dockerfile-mode cpputils-cmake company-irony-c-headers company-irony cmake-ide auto-complete-clang add-node-modules-path))))
+    (ewal company-go gotest go-projectile go-autocomplete exec-path-from-shell yaml-mode web-narrow-mode web-mode-edit-element prettier-js json-mode groovy-mode go-mode flycheck-rtags flycheck-irony dockerfile-mode cpputils-cmake company-irony-c-headers company-irony cmake-ide auto-complete-clang add-node-modules-path))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -206,3 +206,5 @@ There are two things you can do about this warning:
   ;; asm-mode sets it locally to nil, to "stay closer to the old TAB behaviour".
   (setq tab-always-indent (default-value 'tab-always-indent)))
 (add-hook 'asm-mode-hook #'my-asm-mode-hook)
+
+(setq ewal-use-built-in-on-failure-p t)

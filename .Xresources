@@ -1,35 +1,13 @@
 URxvt*depth:			32
-URxvt*background:		[95]#2E3436
-URxvt*foreground:		#D3D7CF
-URxvt.transparent:		true
-URxvt*shading:			35
 URxvt*font:			xft:Ubuntu Mono:style=regular
 URxvt*boldFont:			xft:Ubuntu Mono:style=Bold
 URxvt*italicFont:		xft:Ubuntu Mono:style=Italic
 URxvt*boldItalicFont:		xft:Ubuntu Mono:style=Bold Italic
-URxvt*termName:			screen-256color
-
-URxvt*color0:			#2E3436
-URxvt*color1:			#CC0000
-URxvt*color2:			#4E9A06
-URxvt*color3:			#C4A000
-URxvt*color4:			#3465A4
-URxvt*color5:			#75507B
-URxvt*color6:			#06989A
-URxvt*color7:			#D3D7CF
-URxvt*color8:			#555753
-URxvt*color9:			#EF2929
-URxvt*color10:			#8AE234
-URxvt*color11:			#FCE94F
-URxvt*color12:			#729FCF
-URxvt*color13:			#AD7FA8
-URxvt*color14:			#34E2E2
-URxvt*color15:			#EEEEEC
-
+URxvt*termName:			rxvt-unicode
 URxvt.cursorBlink: 		true
-
 URxvt.perl-ext-common:		default,matcher
 URxvt.url-launcher: 		/usr/bin/xdg-open
 URxvt.underlineURLs: 		true
 URxvt.urlButton:		1
 URxvt.matcher.rend.0: 		Uline Bold
+Xft.dpi:			82
