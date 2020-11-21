@@ -31,5 +31,8 @@ if [ -d "/usr/local/go/bin" ] ; then
     PATH="/usr/local/go/bin:$PATH"
 fi
 
-xset r rate 200 50
+if xhost >& /dev/null ;
+then
+    xset r rate 200 50
+fi
   
