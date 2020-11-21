@@ -256,6 +256,8 @@ for_window [class="Google-chrome"] border none
 
 bindsym $mod+l exec i3lock -e -c "$main-color"
 
+exec --no-startup-id xset r rate 200 35 # Set initial delay 200ms, repeat 35ms
+
 #exec_always feh --bg-fill /home/mats/Pictures/wallpapers/mountain.jpg
 #exec_always feh --bg-fill /usr/share/backgrounds/Water_of_Leith_by_Keanu_Kerr.jpg
 exec_always --no-startup-id wal -i /usr/share/backgrounds/

@@ -9,6 +9,8 @@
 (setq inhibit-startup-screen t)
 
 
+
+
 ;; melpa package manager
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -106,6 +108,10 @@ There are two things you can do about this warning:
 	      (append flycheck-disabled-checkers
 		      '(javascript-jshint json-jsonlist emacs-list-checkdoc)))
 
+
+; Handle SCHEME support through guile
+(setq geiser-active-implementations '(chicken))
+
 ;; Enable eslint checker for web-mode
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 ;; Enable flycheck globally
@@ -124,9 +130,12 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (ewal company-go gotest go-projectile go-autocomplete exec-path-from-shell yaml-mode web-narrow-mode web-mode-edit-element prettier-js json-mode groovy-mode go-mode flycheck-rtags flycheck-irony dockerfile-mode cpputils-cmake company-irony-c-headers company-irony cmake-ide auto-complete-clang add-node-modules-path))))
+    (geiser elpy spacemacs-theme mwim ewal company-go gotest go-projectile go-autocomplete exec-path-from-shell yaml-mode web-narrow-mode web-mode-edit-element prettier-js json-mode groovy-mode go-mode flycheck-rtags flycheck-irony dockerfile-mode cpputils-cmake company-irony-c-headers company-irony cmake-ide auto-complete-clang add-node-modules-path))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -208,3 +217,22 @@ There are two things you can do about this warning:
 (add-hook 'asm-mode-hook #'my-asm-mode-hook)
 
 (setq ewal-use-built-in-on-failure-p t)
+
+;; Add my personal elisp lib dir
+(add-to-list 'load-path "~/.emacs.d/lisp")
+
+;; Load gas-mode
+;(load "gas-mode")
+
+
+(load "z80-mode")
+(add-to-list 'auto-mode-alist '("\\.s\\'" . z80-mode))
+
+;; Enable elpy
+(elpy-enable)
+
+
+(provide 'init)
+;;; init.el ends here
+
+

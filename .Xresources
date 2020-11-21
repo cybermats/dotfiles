@@ -10,4 +10,6 @@ URxvt.url-launcher: 		/usr/bin/xdg-open
 URxvt.underlineURLs: 		true
 URxvt.urlButton:		1
 URxvt.matcher.rend.0: 		Uline Bold
+URxvt.background:		#380c2a
+URxvt.foreground:		#d7d0c7
 Xft.dpi:			82
