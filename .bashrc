@@ -61,4 +61,7 @@ if ! shopt -oq posix; then
 fi
 
 # Add yarn to path
-export PATH="$(yarn global bin):$PATH"
+if yarn >& /dev/null;
+then
+    export PATH="$(yarn global bin):$PATH"
+fi
