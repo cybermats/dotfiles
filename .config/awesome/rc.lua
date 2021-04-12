@@ -170,7 +170,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Each screen has its own tag table.
     awful.tag({
-	  "1: main", "2", "3", "4", "5", "6", "7", "8", "10: spotify" --<span font-family='Material Design Icons'></span>"
+	  "1: main", "2", "3", "4", "5", "6", "7", "8", "9: spotify" --<span font-family='Material Design Icons'></span>"
 	      }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
@@ -467,6 +467,7 @@ awful.rules.rules = {
           "pinentry",
         },
         class = {
+	  "Gnome-calculator",
           "Arandr",
           "Blueman-manager",
           "Gpick",
@@ -492,12 +493,17 @@ awful.rules.rules = {
 
     -- Add titlebars to normal clients and dialogs
     { rule_any = {type = { "normal", "dialog" }
-      }, properties = { titlebars_enabled = true }
+      }, properties = { titlebars_enabled = false }
     },
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
     -- { rule = { class = "Firefox" },
     --   properties = { screen = 1, tag = "2" } },
+    -- Set Chrome to always map on the tag named "2" on screen 1.
+    { rule = { class = "Google-chrome" },
+      properties = { screen = 1, tag = "2" } },
+    { rule = { class = "Spotify" },
+      properties = { screen = 1, tag = "9" } },
 }
 -- }}}
 
@@ -564,3 +570,6 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+
+
+awful.spawn.with_shell("picom")
