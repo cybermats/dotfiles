@@ -28,7 +28,7 @@ M.awesome = {
 
 function _M.get()
    local menu_items = {
-      { "awesome", myawesomemenu, beautiful.awesome_icon },
+      { "awesome", M.awesome, beautiful.awesome_icon },
       { "open terminal", terminal }
    }
    return menu_items

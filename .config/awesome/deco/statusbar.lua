@@ -12,8 +12,8 @@ local deco = {
    tasklist = require("deco.tasklist"),
 }
 
-local taglist_button = deco.taglist()
-local tasklist_button = deco.tasklist()
+local taglist_buttons = deco.taglist()
+local tasklist_buttons = deco.tasklist()
 
 local _M = {}
 
@@ -50,6 +50,9 @@ awful.screen.connect_for_each_screen(
 	 filter  = awful.widget.tasklist.filter.currenttags,
 	 buttons = tasklist_buttons
       }
+
+--      s.systray = wibox.widget.systray()
+--      s.systray.visible = true
       
       -- Create the wibox
       s.mywibox = awful.wibar({ position = "top", screen = s })

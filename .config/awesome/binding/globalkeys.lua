@@ -10,6 +10,7 @@ local menubar = require("menubar")
 
 local _M = {}
 local modkey = RC.vars.modkey
+local terminal = RC.vars.terminal
 
 function _M.get()
    local globalkeys = gears.table.join(
@@ -34,7 +35,7 @@ function _M.get()
 	 end,
 	 {description = "focus previous by index", group = "client"}
       ),
-      awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+      awful.key({ modkey,           }, "w", function () RC.mainmenu:show() end,
 	 {description = "show main menu", group = "awesome"}),
 
       -- Layout manipulation

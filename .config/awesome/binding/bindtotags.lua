@@ -4,6 +4,8 @@ local awful = require("awful")
 
 
 local _M = {}
+local modkey = RC.vars.modkey
+
 
 function _M.get(globalkeys)
    -- Bind all key numbers to tags.
