@@ -36,3 +36,34 @@ then
     xset r rate 200 50
 fi
   
+export PATH="$PATH:$HOME/code/esp/xtensa-lx106-elf/bin"
+
+
+SSH_ENV="$HOME/.ssh/agent-environment"
+
+function start_agent {
+    echo "Initialising new SSH agent..."
+    /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+    echo succeeded
+    chmod 600 "${SSH_ENV}"
+    . "${SSH_ENV}" > /dev/null
+#    /usr/bin/ssh-add "$HOME/.ssh/id_rsa";
+}
+
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+    . "${SSH_ENV}" > /dev/null
+    ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+	start_agent;
+    }
+else
+    start_agent;
+fi
+. "$HOME/.cargo/env"
+
+
+# Added by Toolbox App
+export PATH="$PATH:/home/mats/.local/share/JetBrains/Toolbox/scripts"
+
+

@@ -260,4 +260,4 @@ exec --no-startup-id xset r rate 200 35 # Set initial delay 200ms, repeat 35ms
 
 #exec_always feh --bg-fill /home/mats/Pictures/wallpapers/mountain.jpg
 #exec_always feh --bg-fill /usr/share/backgrounds/Water_of_Leith_by_Keanu_Kerr.jpg
-exec_always --no-startup-id wal -i /usr/share/backgrounds/
+exec_always --no-startup-id wal -b dcdad5 -i /usr/share/backgrounds/

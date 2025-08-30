@@ -1,8 +1,8 @@
 URxvt*depth:			32
-URxvt*font:			xft:Ubuntu Mono:style=regular
-URxvt*boldFont:			xft:Ubuntu Mono:style=Bold
-URxvt*italicFont:		xft:Ubuntu Mono:style=Italic
-URxvt*boldItalicFont:		xft:Ubuntu Mono:style=Bold Italic
+URxvt*font:			xft:DejaVu Sans Mono:style=regular
+URxvt*boldFont:			xft:DejaVu Sans Mono:style=bold
+URxvt*italicFont:		xft:DejaVu Sans Mono:style=oblique
+URxvt*boldItalicFont:		xft:DejaVu Sans Mono:style=bold oblique
 URxvt*termName:			rxvt-unicode
 URxvt.cursorBlink: 		true
 URxvt.perl-ext-common:		default,matcher
@@ -10,6 +10,49 @@ URxvt.url-launcher: 		/usr/bin/xdg-open
 URxvt.underlineURLs: 		true
 URxvt.urlButton:		1
 URxvt.matcher.rend.0: 		Uline Bold
-URxvt.background:		#380c2a
-URxvt.foreground:		#d7d0c7
-Xft.dpi:			82
+URxvt.scrollBar:		false
+URxvt.letterSpace:		-1
+Xft.dpi:			72
+Xft.autohint:			false
+Xft.antialias:			true
+Xft.hinting:			true
+Xft.hintstyle:			hintsmedium
+Xft.lcdfilter:			lcddefault
+Xft.rgba:			rgd
+
+! special
+*.foreground:   #dde3f6
+*.background:   #1f2430
+*.cursorColor:  #b4b9c7
+
+! black
+*.color0:       #191e2a
+*.color8:       #686868
+
+! red
+*.color1:       #d46d60
+*.color9:       #f28779
+
+! green
+*.color2:       #97bc62
+*.color10:      #bae67e
+
+! yellow
+*.color3:       #e3bb68
+*.color11:      #ffd580
+
+! blue
+*.color4:       #55adda
+*.color12:      #73d0ff
+
+! magenta
+*.color5:       #a892d5
+*.color13:      #d4bfff
+
+! cyan
+*.color6:       #77c4aa
+*.color14:      #95e6cb
+
+! white
+*.color7:       #d5d5d5
+*.color15:      #ffffff

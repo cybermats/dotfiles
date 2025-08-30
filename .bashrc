@@ -61,7 +61,43 @@ if ! shopt -oq posix; then
 fi
 
 # Add yarn to path
-if yarn >& /dev/null;
+if [[ -n "`which yarn >& /dev/null`" ]];
 then
     export PATH="$(yarn global bin):$PATH"
 fi
+
+export ALTERNATE_EDITOR=""
+# $EDITOR should open in terminal
+export EDITOR="emacsclient -t"
+# $VISUAL opens in GUI with non-daemon as alternate
+export VISUAL="emacsclient -c -a emacs"
+
+if [[ -n "`which luarocks 2> /dev/null`" ]]; then
+    eval `luarocks path --bin`
+fi
+source "$HOME/.cargo/env"
+
+#source <(kitty + complete setup bash)
+
+export PATH="$PATH:$HOME/code/esp/xtensa-lx106-elf/bin"
+# export PATH="$PATH:$(go env GOPATH)/bin"
+export IDF_PATH="$HOME/code/esp/ESP8266_RTOS_SDK/"
+
+bind 'set bell-style visible'
+. "$HOME/.cargo/env"
+
+# BEGIN_KITTY_SHELL_INTEGRATION
+if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
+# END_KITTY_SHELL_INTEGRATION
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
+
+# Go
+export PATH=$PATH:/usr/local/go/bin
+
+alias claude="/home/mats/.claude/local/claude"

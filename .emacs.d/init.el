@@ -39,6 +39,12 @@
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 
 
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+(require 'google-c-style)
+(add-hook 'c-mode-common-hook 'google-set-c-style)
+(add-hook 'c-mode-common-hook 'google-make-newline-indent)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Other
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -76,11 +82,13 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(custom-enabled-themes '(tango-dark))
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+ '(global-display-line-numbers-mode nil)
  '(package-selected-packages
-   '(ccls lsp-mode company project markdown-mode geiser mwim ewal)))
+   '(magit toml-mode protobuf-mode dockerfile-mode luarocks lua-mode google-c-style popwin ccls lsp-mode company project markdown-mode geiser mwim ewal))
+ '(popwin-mode nil)
+ '(tab-bar-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -93,8 +101,16 @@ There are two things you can do about this warning:
 
 (setq ewal-use-built-in-on-failure-p t)
 
+;; Auto revert mode
+(setq global-auto-revert-mode t)
+
+
 ;; Add my personal elisp lib dir
 (add-to-list 'load-path "~/.emacs.d/lisp")
+
+
+;; Load support for Dead Keys (such as tilde)
+(require 'iso-transl)
 
 
 (provide 'init)
