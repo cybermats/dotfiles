@@ -112,6 +112,14 @@ There are two things you can do about this warning:
 ;; Load support for Dead Keys (such as tilde)
 (require 'iso-transl)
 
+;; Add Slime for SBCL
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+;; Replace "sbcl" with the path to your implementation
+(setq inferior-lisp-program "/usr/bin/sbcl")
+
+
+
+
 
 (provide 'init)
 ;;; init.el ends here
