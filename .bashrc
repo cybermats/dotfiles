@@ -100,4 +100,7 @@ export PATH=$BUN_INSTALL/bin:$PATH
 # Go
 export PATH=$PATH:/usr/local/go/bin
 
+# vasm
+export PATH=$PATH:$HOME/.local/vbcc/bin
+
 alias claude="/home/mats/.claude/local/claude"
