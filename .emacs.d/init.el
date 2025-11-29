@@ -10,8 +10,15 @@
 
 
 ;;; Configure WindMove
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+;;(when (fboundp 'windmove-default-keybindings)
+;;  (windmove-default-keybindings))
+(use-package windmove
+  :ensure nil
+  :bind*
+  (("M-<left>" . windmove-left)
+   ("M-<right>" . windmove-right)
+   ("M-<up>" . windmove-up)
+   ("M-<down>" . windmove-down)))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -86,7 +93,7 @@ There are two things you can do about this warning:
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(global-display-line-numbers-mode nil)
  '(package-selected-packages
-   '(magit toml-mode protobuf-mode dockerfile-mode luarocks lua-mode google-c-style popwin ccls lsp-mode company project markdown-mode geiser mwim ewal))
+   '(use-package magit toml-mode protobuf-mode dockerfile-mode luarocks lua-mode google-c-style popwin ccls lsp-mode company project markdown-mode geiser mwim ewal))
  '(popwin-mode nil)
  '(tab-bar-mode t))
 (custom-set-faces
