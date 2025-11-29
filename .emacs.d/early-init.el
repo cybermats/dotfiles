@@ -1,23 +1,24 @@
 ;;; early-init.el --- Early initialization
 
 ;;; Commentary:
-;; This file runs before the GUI is initialized, preventing flicker
-;; and allowing frame size/font to be set cleanly.
+;; This file runs before the GUI is initialized, preventing flicker.
 
 ;;; Code:
 
 ;; Disable package.el early (we use use-package in init.el)
 (setq package-enable-at-startup nil)
 
-;; Set frame size BEFORE GUI initialization (prevents flickering)
-(add-to-list 'default-frame-alist '(width . 120))   ; 120 characters wide
-(add-to-list 'default-frame-alist '(height . 40))   ; 40 lines tall
+;; Don't set frame size - let Emacs/GTK handle it naturally
+;; This avoids GTK assertion errors
+;(setq frame-inhibit-implied-resize t)
 
-;; Or maximize on startup (uncomment if preferred):
-;; (add-to-list 'default-frame-alist '(fullscreen . maximized))
+;; Set the frame size
+(setq default-frame-alist
+      '((width . 100) ;; e.g. 100 characters wide
+	(height . 50))) ;; e.g. 50 lines high
+
 
 ;; Set default font and size
-;; Common monospace fonts: "Monospace", "DejaVu Sans Mono", "JetBrains Mono", "Fira Code"
 (add-to-list 'default-frame-alist '(font . "Ubuntu Sans Mono-11"))
 
 ;; Disable UI elements early to prevent flicker
