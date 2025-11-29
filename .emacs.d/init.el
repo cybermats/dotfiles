@@ -3,15 +3,53 @@
 ;;; Author: Mats Fredriksson <cybermats@gmail.com>
 
 ;;; Commentary:
+;; Refactored for Emacs 30.2 with better load order, lazy loading,
+;; and modern practices using use-package.
 
 ;;; Code:
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Package Management Setup (MUST BE FIRST)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'package)
+
+;; Configure package archives
+(setq package-archives
+      '(("gnu" . "https://elpa.gnu.org/packages/")
+        ("melpa" . "https://melpa.org/packages/")))
+
+(package-initialize)
+
+;; Bootstrap use-package
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)  ; Auto-install packages
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Basic UI Configuration
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (tool-bar-mode -1)
 (setq inhibit-startup-screen t)
+(setq compilation-scroll-output t)
+(setq global-auto-revert-mode t)
 
+;; Enable tab-bar-mode
+(tab-bar-mode t)
 
-;;; Configure WindMove
-;;(when (fboundp 'windmove-default-keybindings)
-;;  (windmove-default-keybindings))
+;; Line numbers in programming modes
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+;; Note: Frame size and font are configured in early-init.el to prevent flickering
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Window Navigation
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (use-package windmove
   :ensure nil
   :bind*
@@ -20,67 +58,142 @@
    ("M-<up>" . windmove-up)
    ("M-<down>" . windmove-down)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Programming - General
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Company mode for auto-completion
+(use-package company
+  :diminish company-mode
+  :hook (after-init . global-company-mode)
+  :config
+  (setq company-idle-delay 0.2
+        company-minimum-prefix-length 2))
+
+;; Use built-in eglot instead of lsp-mode (available in Emacs 29+)
+;; eglot is lighter and now the recommended LSP client
+(use-package eglot
+  :ensure nil  ; Built-in
+  :hook ((c-mode . eglot-ensure)
+         (c++-mode . eglot-ensure))
+  :config
+  ;; Configure ccls as the C/C++ language server
+  (add-to-list 'eglot-server-programs
+               '((c-mode c++-mode) . ("ccls")))
+  :bind (:map eglot-mode-map
+              ("C-c l r" . eglot-rename)
+              ("C-c l f" . eglot-format)
+              ("C-c l a" . eglot-code-actions)))
+
+;; Note: If you prefer lsp-mode over eglot, uncomment below and comment out eglot section:
+;; (use-package lsp-mode
+;;   :hook ((c-mode . lsp)
+;;          (c++-mode . lsp))
+;;   :commands lsp
+;;   :config
+;;   (setq lsp-prefer-flymake nil))
+;;
+;; (use-package ccls
+;;   :after lsp-mode
+;;   :config
+;;   (setq ccls-executable "/usr/bin/ccls"))
+
+;; Flymake (built-in) - works with both eglot and lsp-mode
+(use-package flymake
+  :ensure nil
+  :bind (:map flymake-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Programming stuff
+;;; Programming - C/C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Enable company-mode for all buffers
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
+;; Google C style
+(use-package google-c-style
+  :hook ((c-mode-common . google-set-c-style)
+         (c-mode-common . google-make-newline-indent)))
 
-;; Enable lsp-mode
-(require 'lsp)
-(add-hook 'c-mode-hook #'lsp)
-
-;; Configure ccls
-(require 'ccls)
-(setq ccls-executable "/usr/bin/ccls")
-
-;; Configure Flymake
-(require 'flymake)
-(define-key flymake-mode-map (kbd "M-n") 'flymake-goto-next-error)
-(define-key flymake-mode-map (kbd "M-p") 'flymake-goto-prev-error)
-
-;; Set up find other file (for .h to .c)
+;; Find other file (.h <-> .c)
 (global-set-key (kbd "C-c o") 'ff-find-other-file)
 
-
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
-
-(require 'google-c-style)
-(add-hook 'c-mode-common-hook 'google-set-c-style)
-(add-hook 'c-mode-common-hook 'google-make-newline-indent)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Other
+;;; Programming - Other Languages
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package markdown-mode
+  :mode "\\.md\\'")
 
-;; melpa package manager
-(require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-		    (not (gnutls-available-p))))
-       (proto (if no-ssl "http" "https")))
-  (when no-ssl
-    (warn "\
-Your version of Emacs does not support SSL connections,
-which is unsafe because it allows man-in-the-middle attacks.
-There are two things you can do about this warning:
-1. Install an Emacs version that does support SSL and be safe.
-2. Remove this warning from your init file so you won't see it again."))
-  ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  ;;(add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
-  (when (< emacs-major-version 24)
-    ;; For important compatibility libraries like cl-lib
-    (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
-(package-initialize)
+(use-package lua-mode
+  :mode "\\.lua\\'")
 
+(use-package toml-mode
+  :mode "\\.toml\\'")
 
-					; Handle SCHEME support through guile
-(setq geiser-active-implementations '(chicken))
+(use-package protobuf-mode
+  :mode "\\.proto\\'")
 
+(use-package dockerfile-mode
+  :mode "Dockerfile\\'")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Lisp Development
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Scheme with Geiser
+(use-package geiser
+  :defer t
+  :config
+  (setq geiser-active-implementations '(chicken)))
+
+;; Common Lisp with SLIME (installed via Quicklisp, not MELPA)
+;; SLIME is loaded from ~/quicklisp/slime-helper.el
+(setq inferior-lisp-program "/usr/bin/sbcl")
+(let ((slime-helper (expand-file-name "~/quicklisp/slime-helper.el")))
+  (when (file-exists-p slime-helper)
+    (load slime-helper)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Version Control
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package magit
+  :bind ("C-x g" . magit-status))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Utilities
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package mwim
+  :bind (("C-a" . mwim-beginning-of-code-or-line)
+         ("C-e" . mwim-end-of-code-or-line)))
+
+;; Popwin for better popup management
+(use-package popwin
+  :config
+  (popwin-mode 1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Theming
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package ewal
+  :config
+  (setq ewal-use-built-in-on-failure-p t))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Additional Configuration
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Add personal elisp library directory
+(add-to-list 'load-path "~/.emacs.d/lisp")
+
+;; Dead keys support (e.g., tilde)
+(require 'iso-transl)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Custom Variables (auto-generated)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -90,12 +203,11 @@ There are two things you can do about this warning:
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(custom-safe-themes
-   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+   '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
+     default))
  '(global-display-line-numbers-mode nil)
- '(package-selected-packages
-   '(use-package magit toml-mode protobuf-mode dockerfile-mode luarocks lua-mode google-c-style popwin ccls lsp-mode company project markdown-mode geiser mwim ewal))
- '(popwin-mode nil)
- '(tab-bar-mode t))
+ '(package-selected-packages nil))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -103,32 +215,5 @@ There are two things you can do about this warning:
  ;; If there is more than one, they won't work right.
  )
 
-;;Compilation autoscroll
-(setq compilation-scroll-output t)
-
-(setq ewal-use-built-in-on-failure-p t)
-
-;; Auto revert mode
-(setq global-auto-revert-mode t)
-
-
-;; Add my personal elisp lib dir
-(add-to-list 'load-path "~/.emacs.d/lisp")
-
-
-;; Load support for Dead Keys (such as tilde)
-(require 'iso-transl)
-
-;; Add Slime for SBCL
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-;; Replace "sbcl" with the path to your implementation
-(setq inferior-lisp-program "/usr/bin/sbcl")
-
-
-
-
-
 (provide 'init)
 ;;; init.el ends here
-
-
