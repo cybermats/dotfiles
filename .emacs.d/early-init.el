@@ -18,7 +18,7 @@
 
 ;; Set default font and size
 ;; Common monospace fonts: "Monospace", "DejaVu Sans Mono", "JetBrains Mono", "Fira Code"
-(add-to-list 'default-frame-alist '(font . "JetBrains Mono-10"))
+(add-to-list 'default-frame-alist '(font . "Ubuntu Sans Mono-11"))
 
 ;; Disable UI elements early to prevent flicker
 (push '(tool-bar-lines . 0) default-frame-alist)
